@@ -13,7 +13,7 @@ const Canvas = () => {
         // The type (or types) to accept - strings or symbols
         accept: 'BOX',
         canDrop: (item: LibraryComponent, monitor) => {
-            console.log('canDrop', item);
+            // console.log('canDrop', item);
             return item.category === 'layout';
             // return (item.task_id === props.task_id ? true : false);
         },
@@ -50,7 +50,7 @@ const Canvas = () => {
                 ref={drop}
                 role={'Dustbin'}
                 className={styles.dropZone}
-                style={{ backgroundColor: isOver ? 'red' : 'white' }}
+                style={{ backgroundColor: isOver && canDrop ? 'red' : 'white' }}
                 >
                 {canDrop ? 'Release to drop' : 'Drag a box here'}
                 
