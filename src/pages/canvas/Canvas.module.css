@@ -6,3 +6,14 @@
 .dropZone {
     height: 100%;
 }
+
+.dropZone.canDrop {
+    background-color: #CAF0F8;
+}
+
+.empty {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

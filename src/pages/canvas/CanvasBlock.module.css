@@ -1,3 +1,9 @@
 .block {
+    background-color: #ADE8F4;
+    min-height: 8rem;
+    padding: 1rem;
+}
+
+.block.canDrop {
     background-color: yellow;
 }

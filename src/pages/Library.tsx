@@ -1,5 +1,5 @@
-import DraggableUIComponent from "../components/DraggableUIComponent";
-import { LibraryComponent } from "../state/AppStore";
+import LibraryItem from "../components/LibraryItem";
+import { LibraryComponent } from "../types";
 
 import styles from './Library.module.css';
 
@@ -18,11 +18,7 @@ const Library = ({ title, components}: PropTypes) => {
                     {
                         components.map((component) => (
                             <div key={component.name}>
-                                <DraggableUIComponent
-                                    name={component.name}
-                                    type={component.type}
-                                    category={component.category}
-                                />
+                                <LibraryItem item={component} />
                             </div>
                         ))
                     }

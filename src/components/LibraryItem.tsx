@@ -1,10 +1,13 @@
 import { useDrag } from "react-dnd";
+import { LibraryComponent } from "../types";
 
-import { LibraryComponent } from "../state/AppStore";
+import styles from './LibraryItem.module.css';
 
-import styles from './DraggableUIComponent.module.css';
+type PropTypes = {
+  item: LibraryComponent;
+}
 
-const DraggableUIComponent = ({ name, type, category }: LibraryComponent) => {
+const LibraryItem = ({ item }: PropTypes) => {
     const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
       // "type" is required. It is used by the "accept" specification of drop targets.
       type: 'BOX',
@@ -13,15 +16,13 @@ const DraggableUIComponent = ({ name, type, category }: LibraryComponent) => {
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
-      end(item, monitor) {
-        const dropResult = monitor.getDropResult();
-        console.log('draggable', item, dropResult);
-        // addTaskToSprint(task.id, dropResult.sprintId);
-      },
+      // end(item, monitor) {
+      //   const dropResult = monitor.getDropResult();
+      //   console.log('draggable', item, dropResult);
+      //   // addTaskToSprint(task.id, dropResult.sprintId);
+      // },
       item: {
-        name,
-        type,
-        category
+        ...item
       }
     }));
 
@@ -33,10 +34,10 @@ const DraggableUIComponent = ({ name, type, category }: LibraryComponent) => {
         <div role="Handle" ref={drag}>
             <div className={styles.component}>
                 <div>
-                    {name}
+                    {item.name}
                 </div>
                 <div>
-                    {type.toString()}
+                    {item.type.toString()}
                 </div>
             </div>
         </div>
@@ -44,4 +45,4 @@ const DraggableUIComponent = ({ name, type, category }: LibraryComponent) => {
     );
 };
 
-export default DraggableUIComponent;
+export default LibraryItem;
