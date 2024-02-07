@@ -1,0 +1,7 @@
+.component {
+    background-color: #48CAE4;
+}
+
+.component:hover {
+    cursor: grab;
+}

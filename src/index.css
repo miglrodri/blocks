@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  margin: 0;
+  background-color: #F1FAEE;
+}
+
+#root {
+  height: 100%;
+}
+
+/* color pallete
+  https://coolors.co/palette/03045e-023e8a-0077b6-0096c7-00b4d8-48cae4-90e0ef-ade8f4-caf0f8
+*/
