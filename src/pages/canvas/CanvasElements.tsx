@@ -9,12 +9,17 @@ const CanvasElements = () => {
     return (
         <div className={styles.elements}>
             {
-                rootComponents.map((component) => (
-                    <CanvasBlock
-                        key={component.id}
-                        component={component}
-                    />
-                ))
+                rootComponents && Object.keys(rootComponents).map((id) => {
+                    const component = rootComponents[id];
+
+                    return (
+                        <CanvasBlock
+                            key={id}
+                            id={id}
+                            component={component}
+                        />
+                    );
+                })
             }
         </div>
     );

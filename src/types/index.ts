@@ -1,5 +1,5 @@
 export interface DraggableItem {
-    id: string;
+    // id: string;
     type: BlockType;
     category: DraggableItemCategory;
 }
@@ -12,8 +12,13 @@ export type LibraryComponent = DraggableItem & {
     name: string;
 }
 
+export type BlockComponentsMap = Record<string, BlockComponent>;
+
 export type BlockComponent = DraggableItem & {
-    children: BlockComponent[];
+    parentId: string | null;
+    content?: string; // to store button text for example?
+    style?: React.CSSProperties;
+    children?: BlockComponentsMap;
 }
 
 export type BlockType =

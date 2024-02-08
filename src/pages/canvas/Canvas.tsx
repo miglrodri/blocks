@@ -9,7 +9,7 @@ import styles from './Canvas.module.css'
 import classNames from 'classnames';
 
 const Canvas = () => {
-    const { components, setComponents } = useAppStore();
+    const { components, addBlockComponent } = useAppStore();
 
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         // The type (or types) to accept - strings or symbols
@@ -22,12 +22,14 @@ const Canvas = () => {
         drop: (item: LibraryComponent, monitor) => {
             // Some code for the ondrop event to be executed...
             console.log('dropped on canvas', item, monitor.didDrop());
-            !monitor.didDrop() && handleAddComponent({
-                id: uuidv4(),
-                type: item.type,
-                category: item.category,
-                children: [],
-            });
+            
+            if (!monitor.didDrop()) {
+                addBlockComponent({
+                    parentId: null,
+                    type: item.type,
+                    category: item.category,
+                });
+            }
         },
         // Props to collect
         collect: (monitor) => ({
@@ -36,14 +38,6 @@ const Canvas = () => {
           item: monitor.getItem(),
         })
     }), [components])
-
-    const handleAddComponent = useCallback((item: BlockComponent) => {
-        console.log('components', { components, item });
-        setComponents([
-            ...components,
-            item,
-        ]);
-    }, [components, setComponents]);
       
     return (
         <div className={styles.canvas}>
@@ -55,13 +49,13 @@ const Canvas = () => {
             >
                 
                 {
-                    components.length === 0 &&
+                    components && Object.keys(components).length === 0 &&
                     <div className={styles.empty}>
                         {isOver && canDrop ? 'Release to drop' : 'Drag a layout component here'}
                     </div>
                 }
                 {
-                    components.length > 0 &&
+                    components && Object.keys(components).length > 0 &&
                     <CanvasElements />
                 }
             </div>

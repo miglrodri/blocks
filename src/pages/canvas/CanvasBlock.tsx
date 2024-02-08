@@ -1,7 +1,5 @@
 import { useDrop } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
-import { useCallback } from 'react';
 
 import { BlockComponent, LibraryComponent } from '../../types';
 import { useAppStore } from '../../state/AppStore';
@@ -9,14 +7,13 @@ import { useAppStore } from '../../state/AppStore';
 import styles from './CanvasBlock.module.css'
 
 type PropTypes = {
+    id: string;
     component: BlockComponent;
 }
 
-const CanvasBlock = ({ component }: PropTypes) => {
-    const { components, setComponents } = useAppStore();
+const CanvasBlock = ({ id, component }: PropTypes) => {
+    const { components, addBlockComponent } = useAppStore();
     
-    const childComponents = component.children ?? [];
-
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         // The type (or types) to accept - strings or symbols
         accept: 'BOX',
@@ -29,11 +26,10 @@ const CanvasBlock = ({ component }: PropTypes) => {
             // Some code for the ondrop event to be executed...
             console.log('dropped on block', item, monitor.didDrop());
             
-            handleAddChildComponent({
-                id: uuidv4(),
+            addBlockComponent({
+                parentId: component.parentId ? `${component.parentId}:${id}` : id,
                 type: item.type,
                 category: item.category,
-                children: [],
             });
         },
         // Props to collect
@@ -44,38 +40,32 @@ const CanvasBlock = ({ component }: PropTypes) => {
         })
     }), [components])
 
-    const handleAddChildComponent = useCallback((item: BlockComponent) => {
-        console.log('components', { components, item });
-        const newArray = components.map((oldComponent) => {
-            if (oldComponent.id === component.id) {
-                oldComponent.children = [...oldComponent.children, item]
-            }
-
-            return oldComponent;
-        });
-        setComponents([
-            ...newArray
-        ]);
-    }, [components, setComponents]);
-
     return (
         <div
             ref={drop}
             role={'Blockbin'}
             className={classNames(styles.block,  { [styles.canDrop]: isOver && canDrop })}
         >
-            id: {component.id}
-            type: {component.type}
+            <div>
+                id: {id}
+            </div>
+            <div>
+                type: {component.type}
+            </div>
             {
-                childComponents.map((component) => (
-                    <div key={component.id}>
-                        <div>
-                            {component.type}
-                            {component.children?.length ?? 'no children'}
-                            <CanvasBlock component={component} />
+                component?.children && Object.keys(component.children).map((id) => {
+                    const block = component.children?.[id];
+                    
+                    return (
+                        <div key={id}>
+                            <div>
+                                {block?.type}
+                                {block?.children && Object.keys(block.children).length ?'no children' : ''}
+                                <CanvasBlock id={id} component={component} />
+                            </div>
                         </div>
-                    </div>
-                ))
+                    );
+                })
             }
         </div>
     );
