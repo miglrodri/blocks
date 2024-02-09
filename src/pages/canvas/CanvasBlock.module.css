@@ -15,5 +15,14 @@
 }
 
 .block.selected {
-    border: 1px solid #0096C7;
+    border: 1px solid #0077B6;
+}
+
+.label {
+    background-color: #0077B6;
+    color: #fff;
+    position: absolute;
+    top: -1.5rem;
+    left: -1px;
+    padding: 0 0.5rem;
 }

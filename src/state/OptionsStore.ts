@@ -7,5 +7,5 @@ interface OptionsState {
 
 export const useOptionsStore = create<OptionsState>((set) => ({
     selectedBlock: null,
-    setSelectedBlock: (selectedBlock) => set(() => ({ selectedBlock})),
+    setSelectedBlock: (selectedBlock) => set(() => ({ selectedBlock })),
 }))

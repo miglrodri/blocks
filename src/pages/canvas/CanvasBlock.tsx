@@ -60,7 +60,7 @@ const CanvasBlock = ({ id, component }: PropTypes) => {
         return {...acc};
     }, {} as BlockComponentsMap);
 
-    console.log('render block', { id, component });
+    console.log('render block', { id, component, selectedBlock });
 
     const renderChildren = () => {
         if (!childComponents || Object.keys(childComponents).length === 0) return <div style={{ height: '8rem' }}></div>;
@@ -108,12 +108,19 @@ const CanvasBlock = ({ id, component }: PropTypes) => {
             })}
             onClick={(event) => {
                 console.log(event.target);
-                console.log({component});
-                event.preventDefault();
+                console.log({id});
+                event.stopPropagation();
                 setSelectedBlock(id);
+                return;
             }}
         >
             {content}
+            {
+                selectedBlock === id &&
+                <div className={styles.label}>
+                    {component.type}
+                </div>
+            }
         </div>
     );
 };
