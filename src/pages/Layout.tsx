@@ -1,5 +1,6 @@
 import Canvas from "./canvas/Canvas";
 import Sidebar from "./Sidebar";
+import Options from "./Options";
 import Toolbar from "./Toolbar";
 
 import styles from './Layout.module.css';
@@ -11,6 +12,7 @@ const Layout = () => {
             <div className={styles.editor}>
                 <Sidebar />
                 <Canvas />
+                <Options />
             </div>
         </div>
     );

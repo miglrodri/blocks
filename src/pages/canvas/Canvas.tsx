@@ -1,9 +1,7 @@
 import { useDrop } from 'react-dnd';
-import { useCallback } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import CanvasElements from './CanvasElements';
 import { useAppStore } from '../../state/AppStore';
-import { BlockComponent, LibraryComponent } from '../../types';
+import { LibraryComponent } from '../../types';
 
 import styles from './Canvas.module.css'
 import classNames from 'classnames';
@@ -37,7 +35,7 @@ const Canvas = () => {
           canDrop: monitor.canDrop(),
           item: monitor.getItem(),
         })
-    }), [components])
+    }), [components, addBlockComponent])
       
     return (
         <div className={styles.canvas}>
@@ -49,7 +47,7 @@ const Canvas = () => {
             >
                 
                 {
-                    components && Object.keys(components).length === 0 &&
+                    (!components || (components && Object.keys(components).length === 0)) &&
                     <div className={styles.empty}>
                         {isOver && canDrop ? 'Release to drop' : 'Drag a layout component here'}
                     </div>

@@ -18,7 +18,6 @@ export type BlockComponent = DraggableItem & {
     parentId: string | null;
     content?: string; // to store button text for example?
     style?: React.CSSProperties;
-    children?: BlockComponentsMap;
 }
 
 export type BlockType =

@@ -1,5 +1,4 @@
-
-import { LibraryComponent } from '../state/AppStore';
+import { LibraryComponent } from '../types';
 import Library from './Library';
 
 import styles from './Sidebar.module.css'

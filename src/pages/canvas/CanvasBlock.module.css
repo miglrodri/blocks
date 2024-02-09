@@ -1,9 +1,19 @@
 .block {
-    background-color: #ADE8F4;
-    min-height: 8rem;
-    padding: 1rem;
+    /* background-color: #48CAE4; */
+    /* min-height: 8rem; */
+    /* padding: 1rem; */
+    border: 1px solid transparent;
+    position: relative;
 }
 
-.block.canDrop {
-    background-color: yellow;
+.block.canDrop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #0096C7;
+    opacity: 0.7;
+}
+
+.block.selected {
+    border: 1px solid #0096C7;
 }

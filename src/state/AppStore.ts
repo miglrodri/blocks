@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,35 +10,33 @@ interface AppState {
     components: BlockComponentsMap | null;
     addBlockComponent: (block: BlockComponent) => void;
     updateBlockComponent: (block: BlockComponent) => void;
+    updateBlockComponentStyles: (id: string, style: CSSProperties) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
     components: null,
     addBlockComponent: (block) => set((prevState) => {
-        if (block.parentId === null) {
-            // root element
-            return {
-                components: {
-                    ...prevState.components,
-                    [uuidv4()]: block,
-                }
-            };
-        }
-
-        // its a leaf element
-        const tree = block.parentId.split(':');
-        console.log('tree', tree);
-
-        let current = prevState.components;
-        for (let index = 0; index < tree.length; index++) {
-            const id = tree[index];
-            
-            current = current?.[id].children as BlockComponentsMap;
-        }
-
-        return { components: prevState.components };
+        console.log('add', block);
+        const newComponents = {
+            ...prevState.components,
+            [uuidv4()]: block,
+        } as BlockComponentsMap;
+        console.log('new components', newComponents);
+        return { components: newComponents };        
     }),
-    updateBlockComponent: (block) => set((prevState) => ({ components: prevState.components })),
+    updateBlockComponent: (_) => set((prevState) => ({ components: prevState.components })),
+    updateBlockComponentStyles: (id, style) => set((prevState) => {
+        const oldComponent = prevState.components?.[id];
+        const newComponents = {
+            ...prevState.components,
+            [id]: {
+                ...oldComponent,
+                style,
+            },
+        } as BlockComponentsMap;
+        console.log('new components after styles', newComponents);
+        return { components: newComponents };
+    }),
 }))
 
 
@@ -54,30 +53,21 @@ export const DUMMY = {
         parentId: null,
         type: 'flex',
         category: 'layout',
-        children: {
-            '111-1': {
-                parentId: '111',
-                type: 'button',
-                category: 'ui',
-                content: 'Submit',
-            },
-            '111-2': {
-                parentId: '111',
-                type: 'flex',
-                category: 'layout',
-                children: {
-                    '111-2-1': {
-                        parentId: '111:111-2',
-                        type: 'block',
-                        category: 'layout',
-                    }
-                }
-            }
-        },
     },
     '222': {
         parentId: null,
         type: 'grid',
+        category: 'layout',
+    },
+    '111-1': {
+        parentId: '111',
+        type: 'button',
+        category: 'ui',
+        content: 'Submit',
+    },
+    '111-2': {
+        parentId: '111',
+        type: 'flex',
         category: 'layout',
     }
 } as BlockComponentsMap;
